@@ -79,7 +79,6 @@ class WeatherListFragment : Fragment() {
         RetrofitInstance.api.getWeather(latitude, longitude).enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
                 response.body()?.let { weatherResponse ->
-                    // Save data to SharedPreferences and update UI
                     val weatherList = weatherResponse.daily.time.mapIndexed { index, date ->
                         Weather(
                             date = date,
@@ -96,7 +95,6 @@ class WeatherListFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                // Handle failure
                 Toast.makeText(requireContext(), "Failed to fetch weather data", Toast.LENGTH_SHORT).show()
                 loadSavedWeatherData().let {
                     if (it.isNotEmpty()) {
